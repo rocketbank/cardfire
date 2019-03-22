@@ -38,36 +38,38 @@ void PrintPAN(const byte *data)
 }
 
 // medium duration, single impulse
-void Beep()
+void Beep(unsigned char duration)
 {
-  digitalWrite(PB1, HIGH);
-  delay(100);
-  digitalWrite(PB1, LOW);
+//  digitalWrite(PB1, HIGH);
+  analogWrite(PB1, 20); 
+  delay(duration);
+//  digitalWrite(PB1, LOW);
+  analogWrite(PB1, 0); 
 }
 
 // short-short
 void BeepReady()
 {
-  digitalWrite(PB1, HIGH), delay(100), digitalWrite(PB1, LOW);
+  Beep(100);
   delay(100);
-  digitalWrite(PB1, HIGH), delay(100), digitalWrite(PB1, LOW);
+  Beep(100);
 }
 
 // long-short-long
 void BeepError()
 {
-  digitalWrite(PB1, HIGH), delay(500), digitalWrite(PB1, LOW);
+  Beep(100);
+  delay(500);
+  Beep(100);
   delay(100);
-  digitalWrite(PB1, HIGH), delay(100), digitalWrite(PB1, LOW);
-  delay(100);
-  digitalWrite(PB1, HIGH), delay(1000), digitalWrite(PB1, LOW);
+  Beep(1000);
 }
 
 void setup(void)
 {
   HID.begin(HID_KEYBOARD);
   Keyboard.begin(); // useful to detect host capslock state and LEDs
-  //Serial.begin(115200);
+  Serial.begin(115200);
   pinMode(PB1, OUTPUT); // BEEP_PIN
   //delay(1000);
   nfc.begin();
@@ -139,7 +141,8 @@ void loop(void)
       //nfc.PrintHexChar(response, responseLength); // Ничего не печатает
       PrintPAN(response);
       Keyboard.println("");
-      Beep();
+      Beep(100);
+      // delay(1000);
     }
   }
 
