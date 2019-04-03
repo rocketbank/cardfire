@@ -1,4 +1,17 @@
-// #define DEBUG
+#define DEBUG
+
+#define LAST4
+
+#define PN532_SCK (2)
+#define PN532_MOSI (3)
+#define PN532_SS (4)
+#define PN532_MISO (5)
+#define LAST4
+
+#define PN532_SCK (2)
+#define PN532_MOSI (3)
+#define PN532_SS (4)
+#define PN532_MISO (5)
 
 #ifdef DEBUG
 #define MIFAREDEBUG
@@ -12,13 +25,6 @@
 
 USBHID HID;
 HIDKeyboard Keyboard(HID);
-
-#define LAST4
-
-#define PN532_SCK (2)
-#define PN532_MOSI (3)
-#define PN532_SS (4)
-#define PN532_MISO (5)
 
 Adafruit_PN532 nfc(PN532_SS);
 
@@ -37,11 +43,10 @@ void PrintPAN(const byte *data)
   }
 }
 
-// medium duration, single impulse
-void Beep(unsigned char duration)
+void Beep(unsigned int duration)
 {
 //  digitalWrite(PB1, HIGH);
-  analogWrite(PB1, 20); 
+  tone(PB1, 2400); 
   delay(duration);
 //  digitalWrite(PB1, LOW);
   analogWrite(PB1, 0); 
@@ -50,48 +55,58 @@ void Beep(unsigned char duration)
 // short-short
 void BeepReady()
 {
-  Beep(100);
+  Beep(100u);
   delay(100);
-  Beep(100);
+  Beep(100u);
 }
 
 // long-short-long
 void BeepError()
 {
-  Beep(100);
+  Beep(100u);
   delay(500);
-  Beep(100);
+  Beep(100u);
   delay(100);
-  Beep(1000);
+  Beep(1000u);
+}
+
+void Debug(const char * str)
+{
+#ifdef DEBUG
+  Keyboard.println(str);
+  Serial.println(str);
+#endif
 }
 
 void setup(void)
 {
-  HID.begin(HID_KEYBOARD);
-  Keyboard.begin(); // useful to detect host capslock state and LEDs
   Serial.begin(115200);
-  pinMode(PB1, OUTPUT); // BEEP_PIN
-  //delay(1000);
-  nfc.begin();
 
 #ifdef DEBUG
-  Keyboard.println("nfc, keyboard, serial began, pins initialized");
+  Serial.println("initializing...");
 #endif
+
+  HID.begin(HID_KEYBOARD);
+  Keyboard.begin(); // useful to detect host capslock state and LEDs
+  pinMode(PB1, OUTPUT); // BEEP_PIN
+  //delay(1000);
+
+  Debug("keyboard had initialized");
+  nfc.begin();
+
+  delay(1000);
+
+  Debug("All (nfc, keyboard, serial, pins) had initialized");
 
   uint32_t versiondata = nfc.getFirmwareVersion();
   if (!versiondata)
   {
-#ifdef DEBUG
-    Keyboard.println("Didn't find PN53x board");
-#endif
+    Debug("Didn't find PN53x board");
     BeepError();
-    while (1)
-      ; // halt
+    while (1); // halt
   }
 
-#ifdef DEBUG
-  Keyboard.println("Found chip");
-#endif
+  Debug("Found chip");
 
   // Set the max number of retry attempts to read from a card
   // This prevents us from waiting forever for a card, which is
@@ -102,9 +117,7 @@ void setup(void)
   nfc.SAMConfig();
   // Keyboard.println("Waiting for an ISO14443A card");
 
-#ifdef DEBUG
-  Keyboard.println("ready");
-#endif
+  Debug("ready");
 
   BeepReady();
 }
@@ -118,16 +131,15 @@ void loop(void)
 
   uint8_t response[64];
   uint8_t responseLength = sizeof(response);
-#ifdef DEBUG
-  Keyboard.println(".");
-#endif
+
+  Debug(".");
+
   success = nfc.inListPassiveTarget();
 
   if (success)
   {
-#ifdef DEBUG
-    Keyboard.println("Found something!");
-#endif
+    Debug("Found something!");
+
     if (nfc.inDataExchange(SELECT_APPLICATION, sizeof(SELECT_APPLICATION), response, &responseLength))
     {
       //nfc.PrintHexChar(response, responseLength);
@@ -141,7 +153,7 @@ void loop(void)
       //nfc.PrintHexChar(response, responseLength); // Ничего не печатает
       PrintPAN(response);
       Keyboard.println("");
-      Beep(100);
+      Beep(100u);
       // delay(1000);
     }
   }
