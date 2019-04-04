@@ -1,5 +1,9 @@
-#define DEBUG
+// #define DEBUG
 
+// Beeper type
+// #define ACTIVE
+
+// PAN keyboard output mode
 #define LAST4
 
 #define PN532_SCK (2)
@@ -45,11 +49,16 @@ void PrintPAN(const byte *data)
 
 void Beep(unsigned int duration)
 {
-//  digitalWrite(PB1, HIGH);
-  tone(PB1, 2400); 
+#ifdef ACTIVE
+  digitalWrite(PB1, HIGH);
   delay(duration);
-//  digitalWrite(PB1, LOW);
-  analogWrite(PB1, 0); 
+  digitalWrite(PB1, LOW);
+#endif
+#ifndef ACTIVE
+  tone(PB1, 2400);
+  delay(duration);
+  analogWrite(PB1, 0);
+#endif
 }
 
 // short-short
