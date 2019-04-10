@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="50" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
@@ -174,16 +174,9 @@
 <wire x1="28.598" y1="22.852" x2="28.598" y2="8.764" width="0.3556" layer="16"/>
 <pad name="RIGHT_PIN" x="28.575" y="8.763" drill="0.2"/>
 <pad name="LEFT_PIN" x="28.575" y="-6.477" drill="0.35" rot="R180"/>
-<pad name="MIDDLE_PIN" x="28.575" y="3.81" drill="0.2"/>
 <text x="-19.939" y="25.4" size="0.8128" layer="1">&gt;NAME</text>
 <text x="-31.877" y="13.843" size="0.8128" layer="21" rot="R90">&gt;VALUE</text>
-<pad name="CONN1_1" x="-29.337" y="2.159" drill="0.3"/>
-<pad name="CONN2_1" x="-27.305" y="2.159" drill="0.3"/>
-<pad name="CONN2_2" x="-26.289" y="0.381" drill="0.3"/>
-<pad name="CONN1_2" x="-28.321" y="0.381" drill="0.3"/>
-<pad name="CONN3_1" x="26.543" y="1.651" drill="0.3"/>
-<pad name="CONN3_2" x="27.559" y="-0.127" drill="0.3"/>
-<pad name="MIDDLE_PIN_1" x="25.527" y="3.81" drill="0.35" diameter="0.8128"/>
+<pad name="MIDDLE_PIN" x="25.527" y="3.81" drill="0.35" diameter="0.8128"/>
 </package>
 </packages>
 <symbols>
@@ -203,13 +196,6 @@
 <pin name="RIGHT_OUT" x="7.62" y="15.24" length="point" direction="out" function="dot"/>
 <text x="-10.16" y="17.78" size="1.778" layer="93">&gt;NAME</text>
 <text x="-15.24" y="15.24" size="1.778" layer="93" rot="R270">&gt;VALUE</text>
-<pin name="CONN1_1" x="-27.94" y="7.62" length="middle"/>
-<pin name="CONN1_2" x="-27.94" y="5.08" length="middle"/>
-<pin name="CONN2_1" x="-27.94" y="0" length="middle"/>
-<pin name="CONN2_2" x="-27.94" y="-2.54" length="middle"/>
-<pin name="P$8" x="-27.94" y="-7.62" length="middle"/>
-<wire x1="-22.86" y1="7.62" x2="-22.86" y2="5.08" width="0.1524" layer="94"/>
-<wire x1="-22.86" y1="0" x2="-22.86" y2="-2.54" width="0.1524" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -221,10 +207,6 @@
 <devices>
 <device name="" package="ANTENNA">
 <connects>
-<connect gate="G$1" pin="CONN1_1" pad="CONN1_1"/>
-<connect gate="G$1" pin="CONN1_2" pad="CONN1_2"/>
-<connect gate="G$1" pin="CONN2_1" pad="CONN2_1"/>
-<connect gate="G$1" pin="CONN2_2" pad="CONN2_2"/>
 <connect gate="G$1" pin="LEFT_OUT" pad="LEFT_PIN"/>
 <connect gate="G$1" pin="MIDDLE_OUT" pad="MIDDLE_PIN"/>
 <connect gate="G$1" pin="RIGHT_OUT" pad="RIGHT_PIN"/>
